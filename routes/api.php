@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/my-businesses', [BusinessController::class, 'myBusinesses']);
     Route::post('/businesses', [BusinessController::class, 'store']);
     Route::post('/businesses/{slug}', [BusinessController::class, 'update']);
-    Route::post('/businesses/{businessId}', [BusinessController::class, 'delete']);
+    Route::delete('/businesses/{businessId}', [BusinessController::class, 'delete']);
     Route::delete('/businesses/image/{imageId}', [BusinessController::class, 'deleteImage']);
     Route::post('/businesses/{slug}/reviews', [ReviewController::class, 'store']);
     Route::delete('/businesses/{slug}/reviews/{reviewId}', [ReviewController::class, 'destroy']);
