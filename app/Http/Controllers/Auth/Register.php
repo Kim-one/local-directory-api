@@ -10,35 +10,31 @@ use Illuminate\Support\Facades\Auth;
 
 class Register extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
     public function __invoke(Request $request)
     {
-        // validate input
         $validated = $request->validate([
-            'firstName' => 'string|max:255',
-            'lastName' => 'string|max:255',
-            'email' => 'string|email|max:555',
-            'address' => 'string|max:155',
-            'password' => 'string|min:10',
+            'firstName' => 'required|string|max:255',
+            'lastName'  => 'required|string|max:255',
+            'email'     => 'required|string|email|max:555|unique:users',
+            'address'   => 'string|max:155',
+            'password'  => 'required|string|min:10',
         ]);
 
-        // create user
         $user = User::create([
             'firstName' => $validated['firstName'],
-            'lastName' => $validated['lastName'],
-            'email' => $validated['email'],
-            'address' => $validated['address'],
-            'password' => Hash::make($validated['password']),
+            'lastName'  => $validated['lastName'],
+            'email'     => $validated['email'],
+            'address'   => $validated['address'] ?? '',
+            'password'  => Hash::make($validated['password']),
         ]);
 
-        Auth::login($user);
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'message' => "Welcome, $user->firstName",
-            'user' => [
-                'name' => $user->firstName . ' ' . $user->lastName,
+            'token'   => $token,
+            'user'    => [
+                'name'  => $user->firstName . ' ' . $user->lastName,
                 'email' => $user->email,
             ]
         ], 201);

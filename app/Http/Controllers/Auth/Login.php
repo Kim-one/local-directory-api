@@ -8,35 +8,34 @@ use Illuminate\Support\Facades\Auth;
 
 class Login extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
     public function __invoke(Request $request)
     {
-        // validate input
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
 
-        // if login attempt is made
-        if (Auth::attempt($credentials)){
-            // generate session security
-            $request->session()->regenerate();
-            $user = Auth::user();
-
+        if (!Auth::attempt($credentials)) {
             return response()->json([
-                'message' => "Welcome Back",
-                'user' => [
-                    'name' => $user->firstName.' '.$user->lastName,
-                    'email' => $user->email,
-                ]
-            ]);
+                'message' => 'Invalid Username or Password'
+            ], 401);
         }
 
-        // if fails
+        $user = Auth::user();
+
+        // Delete old tokens (optional but clean)
+        $user->tokens()->delete();
+
+        // Create new token
+        $token = $user->createToken('auth_token')->plainTextToken;
+
         return response()->json([
-            'message' => 'Invalid Username or Password'
-        ], 401);
+            'message' => 'Welcome Back',
+            'token' => $token,
+            'user' => [
+                'name' => $user->firstName . ' ' . $user->lastName,
+                'email' => $user->email,
+            ]
+        ]);
     }
 }
