@@ -219,4 +219,34 @@ class BusinessController extends Controller
 
         return response()->json(['message' => 'Image deleted.']);
     }
+
+    public function delete(Request $request, int $businessId)
+    {
+        $business = Business::with('images', 'hours', 'socialLinks')
+            ->where('id', $businessId)
+            ->firstOrFail();
+
+        if ($business->user_id !== Auth::id()) {
+            return response()->json([
+                'message' => 'Unauthorized.'
+            ], 403);
+        }
+
+        // Delete files from S3
+        foreach ($business->images as $image) {
+            Storage::disk('s3')->delete($image->path);
+        }
+
+        // Delete related database records
+        $business->images()->delete();
+        $business->hours()->delete();
+        $business->socialLinks()->delete();
+
+        // Delete business
+        $business->delete();
+
+        return response()->json([
+            'message' => 'Business deleted successfully.'
+        ]);
+    }
 }
