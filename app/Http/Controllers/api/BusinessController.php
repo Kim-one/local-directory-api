@@ -53,13 +53,13 @@ class BusinessController extends Controller
         $business = Business::create($validated);
 
         // Hero image
-        $heroPath = $data->file('heroImage')->store('businesses/hero', 'public');
+        $heroPath = $data->file('heroImage')->store('businesses/hero', 's3');
         $business->images()->create(['path' => $heroPath, 'type' => 'hero']);
 
         // Gallery images
         if ($data->hasFile('galleryImages')) {
             foreach ($data->file('galleryImages') as $image) {
-                $path = $image->store('businesses/gallery', 'public');
+                $path = $image->store('businesses/gallery', 's3');
                 $business->images()->create(['path' => $path, 'type' => 'gallery']);
             }
         }
@@ -160,17 +160,17 @@ class BusinessController extends Controller
         if ($request->hasFile('heroImage')) {
             $existing = $business->images()->where('type', 'hero')->first();
             if ($existing) {
-                Storage::disk('public')->delete($existing->path);
+                Storage::disk('s3')->delete($existing->path);
                 $existing->delete();
             }
-            $heroPath = $request->file('heroImage')->store('businesses/hero', 'public');
+            $heroPath = $request->file('heroImage')->store('businesses/hero', 's3');
             $business->images()->create(['path' => $heroPath, 'type' => 'hero']);
         }
 
         // Gallery images
         if ($request->hasFile('galleryImages')) {
             foreach ($request->file('galleryImages') as $image) {
-                $path = $image->store('businesses/gallery', 'public');
+                $path = $image->store('businesses/gallery', 's3');
                 $business->images()->create(['path' => $path, 'type' => 'gallery']);
             }
         }
@@ -214,7 +214,7 @@ class BusinessController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        Storage::disk('public')->delete($image->path);
+        Storage::disk('s3')->delete($image->path);
         $image->delete();
 
         return response()->json(['message' => 'Image deleted.']);
