@@ -49,7 +49,7 @@ class BusinessController extends Controller
 
         unset($validated['heroImage'], $validated['galleryImages'], $validated['socialLinks'], $validated['hours']);
 
-        // ✅ Create business FIRST, then use $business below
+        // Create business FIRST, then use $business below
         $business = Business::create($validated);
 
         // Hero image
@@ -106,6 +106,15 @@ class BusinessController extends Controller
         return response()->json($businesses);
     }
 
+    public function category(string $category)
+    {
+        $businesses = Business::with('images', 'socialLinks', 'hours')
+            ->where('category', $category)
+            ->get();
+
+        return response()->json($businesses);
+    }
+
     public function show(string $slug)
     {
         $business = Business::where('slug', $slug)
@@ -122,7 +131,7 @@ class BusinessController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        // ✅ $request->validate(), not $data->validate()
+        // $request->validate(), not $data->validate()
         $validated = $request->validate([
             'businessName'          => 'sometimes|string|max:100',
             'category'              => 'sometimes|string|max:100',
