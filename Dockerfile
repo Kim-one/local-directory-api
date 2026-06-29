@@ -15,7 +15,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # Install PHP deps
-#RUN composer install --no-dev --optimize-autoloader --no-interaction
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 COPY ./render/nginx.conf /etc/nginx/conf.d/default.conf
 
