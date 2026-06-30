@@ -23,7 +23,7 @@ class BusinessController extends Controller
             'parish'                => 'required|string|max:100',
             'city'                  => 'required|string|max:100',
             'about'                 => 'nullable|string',
-            'phone'                 => 'nullable|string|max:20',
+            'phone'                 => 'required|string|max:20',
             'email'                 => 'nullable|email|max:255',
             'website'               => 'nullable|url|max:255',
             'heroImage'             => 'required|image|mimes:jpeg,png,webp|max:4096',
