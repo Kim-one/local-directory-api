@@ -115,6 +115,15 @@ class BusinessController extends Controller
         return response()->json($businesses);
     }
 
+    public function parishes(string $parish)
+    {
+        $businesses = Business::with('images', 'socialLinks', 'hours')
+            ->where('parish', $parish)
+            ->get();
+
+        return response()->json($businesses);
+    }
+
     public function show(string $slug)
     {
         $business = Business::where('slug', $slug)

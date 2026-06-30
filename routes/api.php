@@ -13,6 +13,7 @@ Route::post('/register', Register::class);
 
 Route::get('/businesses', [BusinessController::class, 'index']);
 Route::get('/businesses/category/{category}', [BusinessController::class, 'category']);
+Route::get('/businesses/parish/{parish}', [BusinessController::class, 'parish']);
 Route::get('/businesses/{slug}', [BusinessController::class, 'show']);
 Route::get('/businesses/{slug}/reviews', [ReviewController::class, 'index']);
 
