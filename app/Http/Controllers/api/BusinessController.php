@@ -18,6 +18,7 @@ class BusinessController extends Controller
         $validated = $data->validate([
             'businessName'          => 'required|string|max:100',
             'category'              => 'required|string|max:100',
+            'slogan'                => 'nullable|string|max:100',
             'description'           => 'required|string|max:550',
             'streetAddress'         => 'required|string|max:100',
             'parish'                => 'required|string|max:100',

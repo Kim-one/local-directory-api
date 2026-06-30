@@ -18,6 +18,9 @@ class Register extends Controller
             'email'     => 'required|string|email|max:555|unique:users',
             'address'   => 'string|max:155',
             'password'  => 'required|string|min:10',
+            'city'      => 'required|string|max:255',
+            'parish'    => 'required|string|max:255',
+            'country'   => 'required|string|max:255'
         ]);
 
         $user = User::create([
@@ -26,6 +29,9 @@ class Register extends Controller
             'email'     => $validated['email'],
             'address'   => $validated['address'] ?? '',
             'password'  => Hash::make($validated['password']),
+            'city'      => $validated['city'],
+            'parish'    => $validated['parish'],
+            'country'   => $validated['country'],
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -36,6 +42,8 @@ class Register extends Controller
             'user'    => [
                 'name'  => $user->firstName . ' ' . $user->lastName,
                 'email' => $user->email,
+                'parish' => $user->parish,
+                'country' => $user->country
             ]
         ], 201);
     }

@@ -35,6 +35,8 @@ class Login extends Controller
             'user' => [
                 'name' => $user->firstName . ' ' . $user->lastName,
                 'email' => $user->email,
+                'parish' => $user->parish,
+                'country' => $user->country
             ]
         ]);
     }

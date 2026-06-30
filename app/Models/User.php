@@ -24,6 +24,9 @@ class User extends Authenticatable
         'address',
         'email',
         'password',
+        'city',
+        'parish',
+        'country',
     ];
 
     public function businesses(){
