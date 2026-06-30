@@ -25,6 +25,8 @@ Route::middleware('auth:sanctum')->group(function () {
             'id'    => $user->id,
             'name'  => $user->firstName . ' ' . $user->lastName,
             'email' => $user->email,
+            'parish' => $user->parish,
+            'country' => $user->country
         ]);
     });
     Route::post('/logout', Logout::class);
