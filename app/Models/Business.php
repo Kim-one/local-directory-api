@@ -14,7 +14,7 @@ class Business extends Model
         'user_id',
         'slug',
         'businessName',
-        'slogan'
+        'slogan',
         'category',
         'city',
         'parish',
