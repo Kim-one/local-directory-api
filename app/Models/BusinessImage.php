@@ -13,7 +13,7 @@ class BusinessImage extends Model
     protected function url(): Attribute
     {
         return Attribute::make(
-            get: fn () => Storage::disk('s3')->url($this->path),
+            get: fn () => rtrim(config('filesystems.disks.s3.url'), '/') . '/' . $this->path,
         );
     }
 
