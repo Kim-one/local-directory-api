@@ -22,6 +22,9 @@ COPY ./render/nginx.conf /etc/nginx/conf.d/default.conf
 # Permissions (storage + cache)
 RUN chown -R www-data:www-data storage bootstrap/cache
 
+COPY ./render/nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./render/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+
 EXPOSE 8080
 
 CMD bash -lc "\
