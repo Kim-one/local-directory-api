@@ -16,4 +16,6 @@ class BusinessImage extends Model
             get: fn () => Storage::disk('s3')->url($this->path),
         );
     }
+
+    protected $appends = ['url'];
 }
