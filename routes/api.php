@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\Logout;
 use App\Http\Controllers\Auth\Register;
 use App\Http\Controllers\api\BusinessController;
 use App\Http\Controllers\api\ReviewController;
+use App\Http\Controllers\api\SavedPlaceController;
 
 // Public routes
 Route::post('/login', Login::class);
@@ -37,4 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/businesses/image/{imageId}', [BusinessController::class, 'deleteImage']);
     Route::post('/businesses/{slug}/reviews', [ReviewController::class, 'store']);
     Route::delete('/businesses/{slug}/reviews/{reviewId}', [ReviewController::class, 'destroy']);
+    Route::get('/saved-places', [SavedPlaceController::class, 'index']);
+    Route::post('/saved-places', [SavedPlaceController::class, 'store']);
+    Route::delete('/saved-places/{businessId}', [SavedPlaceController::class, 'destroy']);
 });
