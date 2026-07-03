@@ -28,15 +28,19 @@ class SavedPlaceController extends Controller
             ->where('business_id', $validated['business_id'])
             ->first();
 
-        if($existing)
-        {
-            return response()->json(['message':'Already Saved'], 409);
+        if ($existing) {
+            return response()->json(['message' => 'Already saved.'], 409);
         }
 
+        $savedPlace = SavedPlace::create([
+            'user_id' => Auth::id(),
+            'business_id' => $validated['business_id'],
+        ]);
+
         return response()->json([
-            'message' : 'Business Saved',
-            'savedPlace' : $savedPlace,
-        ], 200);
+            'message' => 'Business saved.',
+            'savedPlace' => $savedPlace,
+        ], 201);
     }
 
     public function destroy(int $businessId)
@@ -45,11 +49,10 @@ class SavedPlaceController extends Controller
             ->where('business_id', $businessId)
             ->delete();
 
-        if(!$deleted)
-        {
-            return response()->json(['message' : 'Already deleted'], 404);
+        if (!$deleted) {
+            return response()->json(['message' => 'Already deleted.'], 404);
         }
 
-        return response()->json(['message' : 'Business Unsaved.']);
+        return response()->json(['message' => 'Business unsaved.']);
     }
 }
