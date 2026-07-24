@@ -33,6 +33,7 @@ class Login extends Controller
             'message' => 'Welcome Back',
             'token' => $token,
             'user' => [
+                'id' =>$user->id,
                 'name' => $user->firstName . ' ' . $user->lastName,
                 'email' => $user->email,
                 'parish' => $user->parish,

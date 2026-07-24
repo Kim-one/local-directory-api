@@ -40,6 +40,7 @@ class Register extends Controller
             'message' => "Welcome, $user->firstName",
             'token'   => $token,
             'user'    => [
+                'id' => $user->id,
                 'name'  => $user->firstName . ' ' . $user->lastName,
                 'email' => $user->email,
                 'parish' => $user->parish,

@@ -30,6 +30,9 @@ Route::middleware('auth:sanctum')->group(function () {
             'country' => $user->country
         ]);
     });
+
+    Route::put('/user', [UserController::class, 'update']);
+
     Route::post('/logout', Logout::class);
     Route::get('/my-businesses', [BusinessController::class, 'myBusinesses']);
     Route::post('/businesses', [BusinessController::class, 'store']);
