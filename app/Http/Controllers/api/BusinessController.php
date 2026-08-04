@@ -45,6 +45,7 @@ class BusinessController extends Controller
         $validated['user_id']     = Auth::id();
         $validated['featured']    = false;
         $validated['verified']    = false;
+        $validated['status']      = 'pending';
         $validated['rating']      = 0;
         $validated['reviewCount'] = 0;
 
@@ -103,13 +104,16 @@ class BusinessController extends Controller
 
     public function index(Request $request)
     {
-        $businesses = Business::with('images', 'socialLinks', 'hours')->get();
+        $businesses = Business::approved()
+            ->with('images', 'socialLinks', 'hours')
+            ->get();
         return response()->json($businesses);
     }
 
     public function category(string $category)
     {
-        $businesses = Business::with('images', 'socialLinks', 'hours')
+        $businesses = Business::approved()
+            ->with('images', 'socialLinks', 'hours')
             ->where('category', $category)
             ->get();
 
@@ -118,7 +122,8 @@ class BusinessController extends Controller
 
     public function parishes(string $parish)
     {
-        $businesses = Business::with('images', 'socialLinks', 'hours')
+        $businesses = Business::approved()
+            ->with('images', 'socialLinks', 'hours')
             ->where('parish', $parish)
             ->get();
 
@@ -130,6 +135,16 @@ class BusinessController extends Controller
         $business = Business::where('slug', $slug)
             ->with('images', 'socialLinks', 'hours')
             ->firstOrFail();
+
+        // Only the owner or an admin may view a business that isn't approved yet.
+        // This is a public route, so resolve the bearer token via the sanctum guard.
+        if ($business->status !== 'approved') {
+            $user = Auth::guard('sanctum')->user();
+            if (!$user || (!$user->is_admin && $business->user_id !== $user->id)) {
+                abort(404);
+            }
+        }
+
         return response()->json($business);
     }
 

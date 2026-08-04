@@ -27,6 +27,7 @@ class User extends Authenticatable
         'city',
         'parish',
         'country',
+        'is_admin',
     ];
 
     public function businesses(){
@@ -58,6 +59,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
         ];
     }
 }

@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\Register;
 use App\Http\Controllers\api\BusinessController;
 use App\Http\Controllers\api\ReviewController;
 use App\Http\Controllers\api\SavedPlaceController;
+use App\Http\Controllers\api\UserController;
+use App\Http\Controllers\api\AdminBusinessController;
 
 // Public routes
 Route::post('/login', Login::class);
@@ -27,7 +29,8 @@ Route::middleware('auth:sanctum')->group(function () {
             'name'  => $user->firstName . ' ' . $user->lastName,
             'email' => $user->email,
             'parish' => $user->parish,
-            'country' => $user->country
+            'country' => $user->country,
+            'is_admin' => (bool) $user->is_admin
         ]);
     });
 
@@ -44,4 +47,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/saved-places', [SavedPlaceController::class, 'index']);
     Route::post('/saved-places', [SavedPlaceController::class, 'store']);
     Route::delete('/saved-places/{businessId}', [SavedPlaceController::class, 'destroy']);
+
+    // Admin-only moderation routes
+    Route::middleware('admin')->prefix('admin')->group(function () {
+        Route::get('/businesses', [AdminBusinessController::class, 'index']);
+        Route::get('/businesses/stats', [AdminBusinessController::class, 'stats']);
+        Route::patch('/businesses/{id}/approve', [AdminBusinessController::class, 'approve']);
+        Route::patch('/businesses/{id}/reject', [AdminBusinessController::class, 'reject']);
+    });
 });

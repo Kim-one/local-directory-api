@@ -26,6 +26,9 @@ class Business extends Model
         'website',
         'featured',
         'verified',
+        'status',
+        'rejection_reason',
+        'reviewed_at',
         'rating',
         'reviewCount'
     ];
@@ -34,11 +37,20 @@ class Business extends Model
         'rating' => 'float',
         'featured' => 'boolean',
         'verified' => 'boolean',
-        'reviewCount' => 'integer'
+        'reviewCount' => 'integer',
+        'reviewed_at' => 'datetime'
     ];
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Only businesses an admin has approved (what the public site should show).
+     */
+    public function scopeApproved($query)
+    {
+        return $query->where('status', 'approved');
     }
 
     public function savedPlaces()

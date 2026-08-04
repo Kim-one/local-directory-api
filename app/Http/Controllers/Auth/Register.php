@@ -44,7 +44,8 @@ class Register extends Controller
                 'name'  => $user->firstName . ' ' . $user->lastName,
                 'email' => $user->email,
                 'parish' => $user->parish,
-                'country' => $user->country
+                'country' => $user->country,
+                'is_admin' => (bool) $user->is_admin
             ]
         ], 201);
     }
