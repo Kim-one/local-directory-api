@@ -42,9 +42,12 @@ class Register extends Controller
             'user'    => [
                 'id' => $user->id,
                 'name'  => $user->firstName . ' ' . $user->lastName,
+                'firstName' => $user->firstName,
+                'lastName' => $user->lastName,
                 'email' => $user->email,
                 'parish' => $user->parish,
                 'country' => $user->country,
+                'avatar' => $user->avatar,
                 'is_admin' => (bool) $user->is_admin
             ]
         ], 201);

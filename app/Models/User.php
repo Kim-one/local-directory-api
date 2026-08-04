@@ -27,6 +27,7 @@ class User extends Authenticatable
         'city',
         'parish',
         'country',
+        'avatar',
         'is_admin',
     ];
 
