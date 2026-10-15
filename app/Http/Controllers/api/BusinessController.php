@@ -133,7 +133,7 @@ class BusinessController extends Controller
     public function show(string $slug)
     {
         $business = Business::where('slug', $slug)
-            ->with('images', 'socialLinks', 'hours')
+            ->with('images', 'socialLinks', 'hours', 'user:id,firstName,lastName')
             ->firstOrFail();
 
         // Only the owner or an admin may view a business that isn't approved yet.
