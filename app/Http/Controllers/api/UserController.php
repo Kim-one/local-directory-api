@@ -12,9 +12,18 @@ class UserController extends Controller
 {
     public function show(string $slug)
     {
-        $user = User::where('slug', $slug);
+        $user = User::where('slug', $slug)->firstOrFail();
 
-        return response()->json($user);
+        return response()->json([
+            'id'        => $user->id,
+            'slug'      => $user->slug,
+            'name'      => $user->firstName . ' ' . $user->lastName,
+            'firstName' => $user->firstName,
+            'lastName'  => $user->lastName,
+            'parish'    => $user->parish,
+            'country'   => $user->country,
+            'avatar'    => $user->avatar,
+        ]);
     }
 
     public function update(Request $request)
