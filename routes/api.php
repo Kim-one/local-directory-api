@@ -19,7 +19,7 @@ Route::get('/businesses/category/{category}', [BusinessController::class, 'categ
 Route::get('/businesses/parish/{parish}', [BusinessController::class, 'parish']);
 Route::get('/businesses/{slug}', [BusinessController::class, 'show']);
 Route::get('/businesses/{slug}/reviews', [ReviewController::class, 'index']);
-Route::get('/user/{slug}', [UserController::class, 'show'])
+Route::get('/user/{slug}', [UserController::class, 'show']);
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
