@@ -9,6 +9,13 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    public function show(string $slug)
+    {
+        $user = User::where('slug', $slug);
+
+        return response()->json($user);
+    }
+
     public function update(Request $request)
     {
         $user = $request->user();
